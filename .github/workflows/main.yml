@@ -37,19 +37,14 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket  
-        IMAGE_TAG: ${{ steps.date.outputs.date }}-${{ github.sha }}
+        $Image: Get-ECRImageBatch -ImageId @{ imageTag="latest" } -RepositoryName sastaticket
+        $Manifest: $Image.Images[0].ImageManifest
+        IMAGE_TAG: $Manifest-${{ steps.date.outputs.date }}-${{ github.sha }}
         
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
-    - name: Retag to latest image
-      uses: MahnoorAli02/test
-      with:
-       repository: sastaticket/IMAGE_TAG
-       old_tag: ${{ steps.date.outputs.date }}-${{ github.sha }}
-       new_tag: latest
-       
     - name: Download task definition
       run: |
           aws ecs describe-task-definition --task-definition  three-container \
