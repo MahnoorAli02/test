@@ -1,6 +1,6 @@
 <?php
 
 echo "Welcome to Sherdil IT Academy!  123";
-echo "test"
+echo "test";
 echo '<img src="https://www.docker.com/sites/default/files/horizontal.png">';
 ?>
