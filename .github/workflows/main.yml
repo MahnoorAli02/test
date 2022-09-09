@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ !main ]
 
 jobs:
 
@@ -39,7 +39,7 @@ jobs:
         ECR_REPOSITORY: sastaticket  
         $Image: Get-ECRImageBatch -ImageId @{ imageTag="latest" } -RepositoryName sastaticket
         $Manifest: $Image.Images[0].ImageManifest
-        IMAGE_TAG: $Manifest-${{ steps.date.outputs.date }}-${{ github.sha }}
+        IMAGE_TAG: ${{ Manifest }}-${{ steps.date.outputs.date }}-${{ github.sha }}
         
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
