@@ -36,7 +36,9 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket
-        IMAGE_TAG: latest-${{ steps.date.outputs.date }}-${{ github.sha }}
+        old_tag: ${{ steps.date.outputs.date }}-${{ github.sha }}
+        new_tag: latest
+        # IMAGE_TAG: latest-${{ steps.date.outputs.date }}-${{ github.sha }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
