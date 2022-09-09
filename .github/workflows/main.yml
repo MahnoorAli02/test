@@ -31,7 +31,7 @@ jobs:
           
     - name: Get manifest variable
       id: manifest
-      run: echo "::set-output name=manifest::$(${{ steps.image.outputs.image }}.Images[0].ImageManifest)"
+      run: echo "::set-output name=manifest::$(latest)"
     - name: Test with environment variables
       run: echo $TAG_NAME - $RELEASE_NAME
       env:
@@ -55,8 +55,9 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: sastaticket  
-        IMAGE_TAG: ${{ steps.manifest.outputs.manifest }}-${{ steps.date.outputs.date }}-${{ github.sha }}
+        ECR_REPOSITORY: sastaticket 
+        ImageManifest: latest
+        IMAGE_TAG: ${{ steps.date.outputs.date }}-${{ github.sha }}
         
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
