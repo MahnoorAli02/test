@@ -43,7 +43,7 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
     - name: Retag to latest
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-retagging@v1
       with:
        registry: ${{ steps.login-ecr.outputs.registry }}
        name: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
