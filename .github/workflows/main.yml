@@ -2,14 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ test ]
+    branches: [ main ]
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test'
+    # if: github.ref == 'refs/heads/test'
     steps:
     - name: Get current date
       id: date
