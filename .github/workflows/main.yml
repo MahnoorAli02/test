@@ -22,7 +22,7 @@ jobs:
           
     - name: Get image variable
       id: image
-      run: echo "::set-output name=image::$(Get-ECRImageBatch -ImageId @{ imageTag="latest" }-RepositoryName sastaticket)"
+      run: echo "::set-output name=image::$(latest,)"
     - name: Test with environment variables
       run: echo $TAG_NAME - $RELEASE_NAME
       env:
