@@ -20,9 +20,18 @@ jobs:
           TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
           RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
           
+    - name: Get image variable
+      id: image
+      run: echo "::set-output name=image::$(Get-ECRImageBatch -ImageId @{ imageTag="latest" }-RepositoryName sastaticket)"
+    - name: Test with environment variables
+      run: echo $TAG_NAME - $RELEASE_NAME
+      env:
+          TAG_NAME: tag-${{ steps.image.outputs.image }}
+          RELEASE_NAME: release-${{ steps.image.outputs.image }}  
+          
     - name: Get manifest variable
       id: manifest
-      run: echo "::set-output name=manifest::$($Image.Images[0].ImageManifest)"
+      run: echo "::set-output name=manifest::$(${{ steps.image.outputs.image }}.Images[0].ImageManifest)"
     - name: Test with environment variables
       run: echo $TAG_NAME - $RELEASE_NAME
       env:
@@ -47,7 +56,6 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket  
-        $Image: Get-ECRImageBatch -ImageId @{ imageTag="latest" }-RepositoryName sastaticket
         IMAGE_TAG: ${{ steps.manifest.outputs.manifest }}-${{ steps.date.outputs.date }}-${{ github.sha }}
         
       run: |
