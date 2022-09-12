@@ -39,7 +39,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket
         #ImageManifest: latest
-        Digest: sha-$${{ github.sha }}
+        Digest: sha256-$${{ github.sha }}
         tags: ${{ steps.date.outputs.date }}-${{ github.sha }}
           
       run: |
