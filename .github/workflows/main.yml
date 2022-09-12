@@ -39,9 +39,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket
         ImageManifest: latest
-        tags: |
-          latest
-          ${{ github.sha }}
+        tags: ${{ steps.date.outputs.date }}-${{ github.sha }}
           
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
