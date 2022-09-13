@@ -45,16 +45,7 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
-        
-    - name: Add Semantic Version tag to Docker Image
-      uses: MahnoorAli02/test@v1
-      with:
-          registry: ${{ steps.login-ecr.outputs.registry }}
-          repository: sastaticket
-          target: 'sha256:${{ github.sha }}'
-          tags: '${{ steps.date.outputs.date }}-${{ github.sha }}'
-        
-        
+                
     - name: Download task definition
       run: |
           aws ecs describe-task-definition --task-definition  my-taskdefinition \
