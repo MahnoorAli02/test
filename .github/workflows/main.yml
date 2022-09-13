@@ -42,8 +42,8 @@ jobs:
         tag: ${{ steps.date.outputs.date }}-${{ github.sha }}
           
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags:$tag .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags:$tag
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags-$tag .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags-$tag
                 
     - name: Download task definition
       run: |
