@@ -45,7 +45,7 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tag .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tag
                 
     - name: Download task definition
       run: |
