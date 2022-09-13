@@ -57,7 +57,7 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
           task-definition: task-definition.json
-          container-name: cont_1
+          container-name:  cont_1
           image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/sastaticket:latest
           
     - name: Deploy Amazon ECS task definition
