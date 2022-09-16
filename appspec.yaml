@@ -13,3 +13,17 @@ Resources:
             Subnets: ["subnet-02899de735f882bc1","subnet-0ae1327ab6b1053d3"] 
             SecurityGroups: ["sg-0a805aa626d35acad"] 
             AssignPublicIp: "ENABLED"
+            
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
+    - location: scripts/start_server
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
+
