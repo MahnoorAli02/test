@@ -1,19 +1,8 @@
-version: 1
-Resources:
-  - TargetService:
-      Type: AWS::ECS::Service
-      Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/My_taskdef:14"
-        LoadBalancerInfo: 
-          ContainerName: "c1" 
-          ContainerPort: 80
-# Optional properties
-        NetworkConfiguration:
-          AwsvpcConfiguration:
-            Subnets: ["subnet-02899de735f882bc1","subnet-0ae1327ab6b1053d3"] 
-            SecurityGroups: ["sg-0a805aa626d35acad"] 
-            AssignPublicIp: "ENABLED"
-            
+version: 0.0
+os: linux
+files:
+  - source: web/index.php
+    destination: /var/www/html/
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
@@ -26,4 +15,3 @@ hooks:
     - location: scripts/stop_server
       timeout: 300
       runas: root
-
