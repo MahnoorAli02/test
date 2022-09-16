@@ -46,3 +46,26 @@ jobs:
         #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tag
         #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
+        
+    - name: Download task definition
+      run: |
+          aws ecs describe-task-definition --task-definition  My_taskdef \
+          --query taskDefinition > task-definition.json
+          
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+          task-definition: task-definition.json
+          container-name: c1
+          image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/sastaticket:latest
+          
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+     #if: startsWith( github.ref, 'refs/heads/test' )
+      with:
+          task-definition: task-definition.json
+          service: Mahnoor-Service
+          cluster: Mahnoor-Cluster
+          wait-for-service-stability: true 
+        
