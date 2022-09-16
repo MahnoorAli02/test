@@ -1,16 +1,17 @@
 version: 0.0
 os: linux
+files:
+  - source: web/index.php
+    destination: /var/www/html/
 Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/My_taskdef"
+        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/My_taskdef:18"
         LoadBalancerInfo: 
           ContainerName: "c1" 
           ContainerPort: 80
-files:
-  - source: web/index.php
-    destination: /var/www/html/
+
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
