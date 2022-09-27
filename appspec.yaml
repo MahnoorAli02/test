@@ -4,14 +4,14 @@ files:
   - source: web/index.php
     destination: web/index.php
     
-# Resources:
-#   - TargetService:
-#       Type: AWS::ECS::Service
-#       Properties:
-#         TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef:2"
-#         LoadBalancerInfo: 
-#           ContainerName: "c1" 
-#           ContainerPort: 80
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef:2"
+        LoadBalancerInfo: 
+          ContainerName: "c1" 
+          ContainerPort: 80
           
 
 hooks:
