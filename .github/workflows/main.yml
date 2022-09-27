@@ -53,11 +53,6 @@ jobs:
           --query taskDefinition > task-definition.json
           echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
           
-    - name: De-register previous revision
-      run: |
-          aws ecs deregister-task-definition \
-            --task-definition ${{ env.task-definition }}:${{ steps.download-task.outputs.revision }}
-          
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -65,6 +60,11 @@ jobs:
           task-definition: task-definition.json
           container-name: c1
           image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/sastaticket:latest
+          
+    - name: De-register previous revision
+      run: |
+          aws ecs deregister-task-definition \
+            --task-definition ${{ env.task-definition }}:${{ steps.download-task.outputs.revision }}
           
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
