@@ -39,13 +39,13 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: sastaticket
         tag: latest
-        #tags: ${{ steps.date.outputs.date }}- ${{ github.sha }}
+        tags: ${{ steps.date.outputs.date }}- ${{ github.sha }}
           
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tag .
-        #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tag
-        #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
         
     - name: Download task definition
       run: |
