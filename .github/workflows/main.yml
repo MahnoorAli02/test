@@ -51,6 +51,12 @@ jobs:
       run: |
           aws ecs describe-task-definition --task-definition   taskdef \
           --query taskDefinition > task-definition.json
+          echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
+          
+    - name: De-register previous revision
+      run: |
+          aws ecs deregister-task-definition \
+            --task-definition ${{ env.task-definition }}:${{ steps.download-task.outputs.revision }}
           
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
