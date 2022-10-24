@@ -1,31 +1,45 @@
---- 
-Resources: 
-  - 
-    TargetService: 
-      Properties: 
-        LoadBalancerInfo: 
-          ContainerName: cont
-          ContainerPort: 80
-        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
-      Type: "AWS::ECS::Service"
-files: 
-  - 
-    destination: web/index.php
-    source: web/index.php
-hooks: 
-  ApplicationStop: 
-    - 
-      location: scripts/stop_server
-      runas: root
-      timeout: 300
-  BeforeInstall: 
-    - 
-      location: scripts/install_dependencies
-      runas: root
-      timeout: 300
-    - 
-      location: scripts/start_server
-      runas: root
-      timeout: 300
-os: linux
-version: 0.0
+{
+   "version": 0.0,
+   "os": "linux",
+   "files": [
+      {
+         "destination": "web/index.php",
+         "source": "web/index.php"
+      }
+   ],
+   "Resources": [
+      {
+         "TargetService": {
+            "Properties": {
+               "LoadBalancerInfo": {
+                  "ContainerName": "cont",
+                  "ContainerPort": 80
+               },
+               "TaskDefinition": "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
+            },
+            "Type": "AWS::ECS::Service"
+         }
+      }
+   ],
+   "hooks": {
+      "ApplicationStop": [
+         {
+            "location": "scripts/stop_server",
+            "runas": "root",
+            "timeout": 300
+         }
+      ],
+      "BeforeInstall": [
+         {
+            "location": "scripts/install_dependencies",
+            "runas": "root",
+            "timeout": 300
+         },
+         {
+            "location": "scripts/start_server",
+            "runas": "root",
+            "timeout": 300
+         }
+      ]
+   }
+}
