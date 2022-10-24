@@ -1,26 +1,29 @@
 {
    "version": 0.0,
    "os": "linux",
-   "files": [
+   
+   "Resources": [
+      {
+        "TargetService": {
+          "Type": "AWS::ECS::Service",
+          "Properties": {
+            "TaskDefinition": "arn:aws:ecs:us-east-1:678878256416:task-definition/My_taskdef:latest",
+            "LoadBalancerInfo": {
+              "ContainerName": "dsapi",
+              "ContainerPort": 5000
+            }
+          }
+        }
+      }
+    ],
+    
+    "files": [
       {
          "destination": "web/index.php",
          "source": "web/index.php"
       }
-   ],
-   "Resources": [
-      {
-         "TargetService": {
-            "Properties": {
-               "LoadBalancerInfo": {
-                  "ContainerName": "cont",
-                  "ContainerPort": 80
-               },
-               "TaskDefinition": "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
-            },
-            "Type": "AWS::ECS::Service"
-         }
-      }
-   ],
+   ], 
+   
    "hooks": {
       "ApplicationStop": [
          {
