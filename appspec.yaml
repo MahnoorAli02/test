@@ -8,7 +8,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest",
+        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
         LoadBalancerInfo: 
           ContainerName: "cont" 
           ContainerPort: 80
