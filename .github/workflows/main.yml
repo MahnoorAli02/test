@@ -9,7 +9,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    #if: github.ref == 'refs/heads/test'
     steps:
     - name: Get current date
       id: date
@@ -17,9 +16,9 @@ jobs:
     - name: Test with environment variables
       run: echo $TAG_NAME - $RELEASE_NAME
       env:
-          TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
-          RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
-        
+          TAG_NAME: tag-${{ steps.date.outputs.date }}
+          RELEASE_NAME: release-${{ steps.date.outputs.date }}
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -37,41 +36,29 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: sastaticket
+        ECR_REPOSITORY: ecr-image
         tags: latest
-        tag: ${{ steps.date.outputs.date }}- ${{ github.sha }}
-          
+        tag: ${{ steps.date.outputs.date }}-${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags .
-        #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$tag .
+        docker build . -t $ECR_REGISTRY/$ECR_REPOSITORY:$tags -t $ECR_REGISTRY/$ECR_REPOSITORY:$tag
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tags
-        #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tag
-        
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$tag
     - name: Download task definition
       run: |
-          aws ecs describe-task-definition --task-definition   taskdef \
+          aws ecs describe-task-definition --task-definition  taskdef1 \
           --query taskDefinition > task-definition.json
-          echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
-          
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
           task-definition: task-definition.json
-          container-name: c1
-          image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/sastaticket:latest
-          
-#     - name: De-register previous revision
-#       run: |
-#           aws ecs deregister-task-definition \
-#             --task-definition ${{ env.task-definition }}:${{ steps.download-task.outputs.revision }}
-          
+          container-name:  dsapi
+          image: 361421599476.dkr.ecr.us-east-1.amazonaws.com/ecr-image:latest
+
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-     #if: startsWith( github.ref, 'refs/heads/test' )
       with:
           task-definition: task-definition.json
-          service: Mahnoor-Service
-          cluster: Mahnoor-Cluster
-          wait-for-service-stability: true 
-        
+          service: Mahnoor-Cluster
+          cluster: Mahnoor-Service
+          wait-for-service-stability: true
