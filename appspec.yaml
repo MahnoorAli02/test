@@ -1,28 +1,31 @@
-version: 0.0
-os: linux
-files:
-  - source: web/index.php
-    destination: web/index.php
-    
-Resources:
-  - TargetService:
-      Type: AWS::ECS::Service
-      Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
+--- 
+Resources: 
+  - 
+    TargetService: 
+      Properties: 
         LoadBalancerInfo: 
-          ContainerName: "cont" 
+          ContainerName: cont
           ContainerPort: 80
-          
-
-hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
+        TaskDefinition: "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
+      Type: "AWS::ECS::Service"
+files: 
+  - 
+    destination: web/index.php
+    source: web/index.php
+hooks: 
+  ApplicationStop: 
+    - 
+      location: scripts/stop_server
       runas: root
-    - location: scripts/start_server
       timeout: 300
+  BeforeInstall: 
+    - 
+      location: scripts/install_dependencies
       runas: root
-  ApplicationStop:
-    - location: scripts/stop_server
       timeout: 300
+    - 
+      location: scripts/start_server
       runas: root
+      timeout: 300
+os: linux
+version: 0.0
