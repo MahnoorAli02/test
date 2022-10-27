@@ -60,6 +60,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
           task-definition: task-definition.json
-          service: Mahnoor-Service
+          service: My-Service
           cluster: Mahnoor-Cluster
           wait-for-service-stability: true
