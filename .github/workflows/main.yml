@@ -61,5 +61,5 @@ jobs:
       with:
           task-definition: task-definition.json
           service: My_Service
-          cluster: Mahnoor-Cluster
+          cluster: datascience-api-staging
           wait-for-service-stability: true
