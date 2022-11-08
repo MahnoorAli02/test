@@ -11,7 +11,20 @@
           "LoadBalancerInfo": {
             "ContainerName": "cont",
             "ContainerPort": 80
-          }
+          },
+          "NetworkConfiguration": {
+            "AwsvpcConfiguration": {
+               "AssignPublicIp": "ENABLED",
+               "SecurityGroups": [
+                  "sg-00924b101a9bc257a"
+               ],
+               "Subnets": [
+                "subnet-02899de735f882bc1",
+                "subnet-0de90d9baa488337a"
+               ]
+            }
+         },
+         "PlatformVersion": "LATEST"
         }
       }
     }
