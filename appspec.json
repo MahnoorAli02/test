@@ -12,6 +12,7 @@
             "ContainerName": "cont",
             "ContainerPort": 80
           },
+          "PlatformVersion": "LATEST",  
           "NetworkConfiguration": {
             "AwsvpcConfiguration": {
                "AssignPublicIp": "ENABLED",
@@ -24,7 +25,7 @@
                ]
             }
          },
-         "PlatformVersion": "LATEST"
+         
         }
       }
     }
