@@ -1,7 +1,7 @@
 "Resources":[
       {
          "TargetService":{
-            "Type":"AWS::ECS::Service",
+            
             "Properties":{
                "TaskDefinition":"arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest",
                "LoadBalancerInfo":{
@@ -9,6 +9,7 @@
                   "ContainerPort":80
                }
             }
+         "Type":"AWS::ECS::Service",
          }
       }
    ],
