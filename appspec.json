@@ -1,18 +1,17 @@
-"Resources":[
-      {
-         "TargetService":{
-            
-            "Properties":{
-               "TaskDefinition":"arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest",
-               "LoadBalancerInfo":{
-                  "ContainerName":"cont",
-                  "ContainerPort":80
-               }
-            }
-         "Type":"AWS::ECS::Service",
-         }
+"Resources": [
+    {
+      "TargetService": {
+        "Properties": {
+          "LoadBalancerInfo": {
+            "ContainerName": "cont",
+            "ContainerPort": 80
+          },
+          "TaskDefinition": "arn:aws:ecs:us-east-1:678878256416:task-definition/taskdef1:latest"
+        },
+        "Type": "AWS::ECS::Service"
       }
-   ],
+    }
+  ],
    "files":[
       {
          "destination":"web/index.php",
