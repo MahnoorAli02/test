@@ -13,12 +13,11 @@
     }
   ],
    "files": [
-      {
-         "destination": "web/index.php",
-         "source": "web/index.php"
-      }
-   ],
-
+    {
+      "destination": "web/index.php",
+      "source": "web/index.php"
+    }
+  ],
    "hooks":{
       "ApplicationStop":[
          {
