@@ -46,7 +46,7 @@ jobs:
         
     - name: Download task definition
       run: |
-          aws ecs describe-task-definition --task-definition  taskdef1 \
+          aws ecs describe-task-definition --task-definition  my-taskdefinition \
           --query taskDefinition > task-definition.json
           
     - name: Fill in the new image ID in the Amazon ECS task definition
@@ -55,15 +55,15 @@ jobs:
       with:
          task-definition: task-definition.json
          container-name:  cont
-         image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/ecr-image:latest
+         image: 678878256416.dkr.ecr.us-east-1.amazonaws.com/mahnoor-ecr:latest
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
           task-definition: task-definition.json
-          service: My_Service
-          cluster: datascience-api-staging
+          service: Mahnoor-Service
+          cluster: Mahnoor-cluster
           wait-for-service-stability: true
-          codedeploy-appspec: appspec.json
-          codedeploy-application: AppECS-datascience-api-staging-My_Service
-          codedeploy-deployment-group: DgpECS-datascience-api-staging-My_Service
+          #codedeploy-appspec: appspec.json
+          #codedeploy-application: AppECS-datascience-api-staging-My_Service
+          #codedeploy-deployment-group: DgpECS-datascience-api-staging-My_Service
